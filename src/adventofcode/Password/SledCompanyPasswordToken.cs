@@ -2,13 +2,13 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace adventofcode
+namespace adventofcode.Password
 {
-    public class PasswordToken
+    public class SledCompanyPasswordToken
     {
         private const string regexPattern = @"(\d+)-(\d+) (\w): (\w+)";
         private static readonly Regex regex = new Regex(regexPattern);
-        public PasswordToken(string input)
+        public SledCompanyPasswordToken(string input)
         {
             var match = regex.Match(input);
             Min = Convert.ToInt32(match.Groups[1].Captures[0].Value);
