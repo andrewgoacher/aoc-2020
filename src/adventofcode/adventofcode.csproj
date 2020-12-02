@@ -6,4 +6,8 @@
         <LangVersion>9.0</LangVersion>
     </PropertyGroup>
 
+    <ItemGroup>
+        <Folder Include="$(SolutionDir)content\" CopyToOutputDirectory="Always" />
+    </ItemGroup>
+
 </Project>
