@@ -41,8 +41,8 @@ namespace adventofcode
         public int Width { get; }
         public int Height { get; }
 
-        public int X { get; private set;}
-        public int Y { get; private set;}
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public char Current { get { return _grid[X, Y]; } }
 
@@ -50,16 +50,23 @@ namespace adventofcode
 
         public void Traverse(int x, int y)
         {
-            for(var i = 1; i <= x; ++i)
+            for (var i = 1; i <= x; ++i)
             {
                 X += 1;
+                if (X == Width)
+                {
+                    X = 0;
+                }
                 _traversedCells.Add(Current);
             }
 
-            for(var i=1; i<= y; ++i)
+            for (var i = 1; i <= y; ++i)
             {
-                Y +=1;
-                _traversedCells.Add(Current);
+                if (Y < Height - 1)
+                {
+                    Y += 1;
+                    _traversedCells.Add(Current);
+                }
             }
         }
     }

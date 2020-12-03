@@ -77,5 +77,23 @@ namespace adventofcode.tests
 
             Assert.AreEqual(expectedList, map.TraversedChars);
         }
+
+        [Test]
+        public void TraverseMap_TraversingHorizontally_Wraps()
+        {
+            var map = new Map(mapInput);
+            map.Traverse(10, 0);
+
+            Assert.AreEqual(3, map.X);
+        }
+
+        [Test]
+        public void TraverseMap_TraversingVertically_StopsAtMax()
+        {
+            var map = new Map(mapInput);
+            map.Traverse(0, 10);
+
+            Assert.AreEqual(4, map.Y);
+        }
     }
 }
