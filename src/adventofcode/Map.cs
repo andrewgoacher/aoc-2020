@@ -48,30 +48,25 @@ namespace adventofcode
 
         public IEnumerable<char> TraversedChars => _traversedCells;
 
-        public bool FinishedTraversing {get; private set;}
+        public bool FinishedTraversing { get; private set; }
 
         public void Traverse(int x, int y)
         {
-            if (FinishedTraversing) { return;}
-            for (var i = 1; i <= x; ++i)
+            if (FinishedTraversing) { return; }
+            if (X + x >= Width)
             {
-                X += 1;
-                if (X == Width)
-                {
-                    X = 0;
-                }
-                _traversedCells.Add(Current);
+                X = (X + x) % Width;
+            }
+            else
+            {
+                X += x;
             }
 
-            for (var i = 1; i <= y; ++i)
+            if (Y + y >= Height) { FinishedTraversing = true; }
+            if (!FinishedTraversing)
             {
-                if (Y < Height - 1)
-                {
-                    Y += 1;
-                    _traversedCells.Add(Current);
-                } else {
-                    FinishedTraversing = true;
-                }
+                Y += y;
+                _traversedCells.Add(Current);
             }
         }
     }

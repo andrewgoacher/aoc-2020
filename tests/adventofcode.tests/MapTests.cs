@@ -72,7 +72,7 @@ namespace adventofcode.tests
 
             var expectedList = new List<char>
             {
-                '#','.','#','.','.','#'
+               '#'
             };
 
             Assert.AreEqual(expectedList, map.TraversedChars);
@@ -91,9 +91,10 @@ namespace adventofcode.tests
         public void TraverseMap_TraversingVertically_StopsAtMax()
         {
             var map = new Map(mapInput);
-            map.Traverse(0, 10);
+            map.Traverse(0, 3);
+            map.Traverse(0, 3);
 
-            Assert.AreEqual(4, map.Y);
+            Assert.AreEqual(3, map.Y);
         }
 
         [Test]
