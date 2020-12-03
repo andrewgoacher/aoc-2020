@@ -95,5 +95,16 @@ namespace adventofcode.tests
 
             Assert.AreEqual(4, map.Y);
         }
+
+        [Test]
+        public void TraverseMap_TraversingVertically_SignalsFinishedTraversing()
+        {
+            var map = new Map(mapInput);
+
+            Assert.False(map.FinishedTraversing);
+            map.Traverse(0, 10);
+
+            Assert.True(map.FinishedTraversing);
+        }
     }
 }
