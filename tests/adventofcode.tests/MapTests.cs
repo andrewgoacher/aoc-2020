@@ -107,5 +107,36 @@ namespace adventofcode.tests
 
             Assert.True(map.FinishedTraversing);
         }
+
+        [Test]
+        public void ResetMap_SetsPositionToZero()
+        {
+            var map = new Map(mapInput);
+            map.Traverse(10, 10);
+            map.Reset();
+
+            Assert.AreEqual(0, map.X);
+            Assert.AreEqual(0, map.Y);
+        }
+
+        [Test]
+        public void ResetMap_SetsTraversedCellsToEmpty()
+        {
+            var map = new Map(mapInput);
+            map.Traverse(10, 10);
+            map.Reset();
+
+            Assert.IsEmpty(map.TraversedChars);
+        }
+
+        [Test]
+        public void ResetMap_SetsFinishedTraversingToFalse()
+        {
+            var map = new Map(mapInput);
+            map.Traverse(10, 10);
+            map.Reset();
+
+            Assert.False(map.FinishedTraversing);
+        }
     }
 }

@@ -69,6 +69,14 @@ namespace adventofcode
                 _traversedCells.Add(Current);
             }
         }
+
+        public void Reset()
+        {
+            X = 0;
+            Y = 0;
+            FinishedTraversing = false;
+            _traversedCells.Clear();
+        }
     }
 
     public class InconsistentGridException : Exception { }
