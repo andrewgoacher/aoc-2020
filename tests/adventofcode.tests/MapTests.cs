@@ -5,7 +5,7 @@ namespace adventofcode.tests
     public class MapTests
     {
         const string mapInput = @"
-            .#.#..
+            .#.#...
             ###..#.
             .......
             ###.##.
@@ -21,7 +21,7 @@ namespace adventofcode.tests
             .......
             ###.##.
             ...#...";
-            
+
             Assert.Throws<InconsistentGridException>(() => new Map(inconsistentMap));
         }
 

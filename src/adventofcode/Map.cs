@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 
 namespace adventofcode
 {
@@ -8,24 +9,27 @@ namespace adventofcode
 
         public Map(string input)
         {
-            var split = input.Split(new[] { '\r', '\n'}, System.StringSplitOptions.RemoveEmptyEntries);
+            var split = input
+            .Split(new[] { '\r', '\n'}, System.StringSplitOptions.RemoveEmptyEntries)
+            .Select(s => s.Trim())
+            .ToArray();
 
             Width = split[0].Length;
             Height = split.Length;
 
-            _grid = new char[Width,Height];
+            _grid = new char[ Width, Height];
 
-            for(var i = 0; i < split.Length; ++i)
+            for(var height = 0; height < Height; ++height)
             {
-                var len = split[i].Length;
+                var len = split[height].Length;
                 if (Width != len)
                 {
                     throw new InconsistentGridException();
                 }
-                
-                for(var j = 0; j < split[i].Length; ++j)
+
+                for(var width = 0; width < Width; ++width)
                 {
-                    _grid[j,i] = split[i][j];
+                    _grid[width, height] = split[height][width];
                 }
             }
         }
