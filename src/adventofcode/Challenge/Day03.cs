@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace adventofcode.Challenge
 {
-    public class Day3 : IChallenge
+    public class Day03 : IChallenge
     {
         public void Run()
         {

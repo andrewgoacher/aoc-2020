@@ -5,7 +5,7 @@ using adventofcode.Password;
 
 namespace adventofcode.Challenge
 {
-    public class Day2 : IChallenge
+    public class Day02 : IChallenge
     {
         public void Run()
         {
