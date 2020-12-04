@@ -13,8 +13,7 @@ namespace adventofcode.Challenge
 
             var day_4_part_1_output = Passport
                 .ParseBatch(day_4_input)
-                .Where(x => x!= null)
-                .Count(x => x != null);
+                .Count(x => x.IsValid());
 
             Console.WriteLine("day 4:");
             Console.WriteLine($"\t\t {day_4_part_1_output}");

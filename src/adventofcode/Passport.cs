@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace adventofcode
 {
+    public class InvalidInputedException : Exception { }
     public class Passport
     {
         private const string regexPattern = @"(\w+):([\d\w#]+)";
@@ -20,39 +21,24 @@ namespace adventofcode
              match.Groups[2].Captures[0].Value);
         }
 
-        private static int? TryConvert(string input)
-        {
-            if (int.TryParse(input, out var output))
-            {
-                return output;
-            }
-
-            return null;
-        }
-
-        private static int? GetHeight(string input)
-        {
-            var match = digitsRegex.Match(input);
-            if (match.Groups.Count > 1)
-            {
-                return TryConvert(match.Groups[1].Captures[0].Value);
-            }
-
-            return null;
-        }
-
         public static Passport Parse(string input)
         {
             var parts = input.Split(new char[] { ' ', '\n', '\r' },
                 System.StringSplitOptions.RemoveEmptyEntries);
+
+            if (parts.Length > 8)
+            {
+                throw new InvalidInputedException();
+            }
+
             string eyeColor = null;
-            int passportId = -1;
-            int expiryYear = -1;
+            string passportId = null;
+            string expiryYear = null;
             string hairColor = null;
-            int birthYear = -1;
-            int issueYear = -1;
-            int? countryId = null;
-            int height = -1;
+            string birthYear = null;
+            string countryId = null;
+            string height = null;
+            string issueYear = null;
 
             foreach (var part in parts)
             {
@@ -60,13 +46,13 @@ namespace adventofcode
                 switch (key)
                 {
                     case "ecl": eyeColor = value; break;
-                    case "pid": passportId = TryConvert(value) ?? -1; break;
-                    case "eyr": expiryYear = TryConvert(value) ?? -1; break;
+                    case "pid": passportId = value; break;
+                    case "eyr": expiryYear = value; break;
                     case "hcl": hairColor = value; break;
-                    case "byr": birthYear = TryConvert(value) ?? -1; break;
-                    case "iyr": issueYear = TryConvert(value) ?? -1; break;
-                    case "cid": countryId = TryConvert(value) ?? -1; break;
-                    case "hgt": height = GetHeight(value) ?? -1; break;
+                    case "byr": birthYear = value; break;
+                    case "iyr": issueYear = value; break;
+                    case "cid": countryId = value; break;
+                    case "hgt": height = value; break;
                     default: throw new InvalidOperationException();
                 }
             }
@@ -78,26 +64,35 @@ namespace adventofcode
         public static IEnumerable<Passport> ParseBatch(string[] input)
         {
             var collectionOfLines = new List<string>();
-
             var currentCollection = new List<string>();
+
             foreach (var line in input)
             {
                 if (string.IsNullOrEmpty(line))
                 {
-                    collectionOfLines.Add(string.Join('\n', currentCollection));
-                    currentCollection.Clear();
-                    continue;
+                    if (currentCollection.Any())
+                    {
+                        collectionOfLines.Add(string.Join('\n', currentCollection));
+                        currentCollection.Clear();
+                        continue;
+                    }
                 }
 
                 currentCollection.Add(line);
+            }
+
+            if (currentCollection.Any())
+            {
+                collectionOfLines.Add(string.Join('\n', currentCollection));
+                currentCollection.Clear();
             }
 
             return collectionOfLines
                 .Select(x => Passport.Parse(x));
         }
 
-        private Passport(string eyeColor, int passportId, int expiryYear, string hairColor,
-            int birthYear, int issueYear, int? countryId, int height)
+        private Passport(string eyeColor, string passportId, string expiryYear, string hairColor,
+            string birthYear, string issueYear, string countryId, string height)
         {
             EyeColor = eyeColor;
             PassportId = passportId;
@@ -111,31 +106,24 @@ namespace adventofcode
 
         public bool IsValid()
         {
-            if (string.IsNullOrEmpty(EyeColor))
-            {
-                return false;
-            }
+            var invalid = (string.IsNullOrEmpty(EyeColor) ||
+                string.IsNullOrEmpty(PassportId) ||
+                string.IsNullOrEmpty(ExpiryYear) ||
+                string.IsNullOrEmpty(HairColor) ||
+                string.IsNullOrEmpty(BirthYear) ||
+                string.IsNullOrEmpty(IssueYear) ||
+                string.IsNullOrEmpty(Height));
 
-            if (string.IsNullOrEmpty(HairColor))
-            {
-                return false;
-            }
-
-            if (PassportId < 0) { return false; }
-            if (ExpiryYear < 0) { return false; }
-            if (BirthYear < 0) { return false; }
-            if (IssueYear < 0) { return false; }
-            if (Height < 0) { return false; }
-            return true;
+            return !invalid;
         }
 
         public string EyeColor { get; }
-        public int PassportId { get; }
-        public int ExpiryYear { get; }
+        public string PassportId { get; }
+        public string ExpiryYear { get; }
         public string HairColor { get; }
-        public int BirthYear { get; }
-        public int IssueYear { get; }
-        public int? CountryId { get; }
-        public int Height { get; }
+        public string BirthYear { get; }
+        public string IssueYear { get; }
+        public string CountryId { get; }
+        public string Height { get; }
     }
 }

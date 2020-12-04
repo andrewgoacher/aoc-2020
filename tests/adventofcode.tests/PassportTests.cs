@@ -29,6 +29,17 @@ namespace adventofcode.tests
         ";
 
         [Test]
+        public void ParsePassport_MoreThan8Fields_ThrowsInvalidInputException()
+        {
+            const string input = @"
+            ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+            byr:1937 iyr:2017 cid:147 hgt:183cm avc:2323
+        ";
+
+            Assert.Throws<InvalidInputedException>(() => Passport.Parse(input));
+        }
+
+        [Test]
         public void ParsePassportReturnsPassport()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
@@ -46,28 +57,28 @@ namespace adventofcode.tests
         public void ParsedPassportContainsBirthyear()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual(1937, passport.BirthYear);
+            Assert.AreEqual("1937", passport.BirthYear);
         }
 
         [Test]
         public void ParsedPassportContainsIssueYear()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual(2017, passport.IssueYear);
+            Assert.AreEqual("2017", passport.IssueYear);
         }
 
         [Test]
         public void ParsedPassportContainsExpirationYear()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual(2020, passport.ExpiryYear);
+            Assert.AreEqual("2020", passport.ExpiryYear);
         }
 
         [Test]
         public void ParsedPassportContainsHeight()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual(183, passport.Height);
+            Assert.AreEqual("183cm", passport.Height);
         }
 
         [Test]
@@ -88,14 +99,14 @@ namespace adventofcode.tests
         public void ParsedPassportContainsPassportId()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual(860033327, passport.PassportId);
+            Assert.AreEqual("860033327", passport.PassportId);
         }
 
         [Test]
         public void ParsedPassportContainsCountryId()
         {
             var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual(147, passport.CountryId);
+            Assert.AreEqual("147", passport.CountryId);
         }
 
         [Test]
@@ -133,19 +144,19 @@ namespace adventofcode.tests
         public void ParsedPassports_GetsCorrectCountOfValidPassports()
         {
             const string input = @"
-            ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
-            byr:1937 iyr:2017 cid:147 hgt:183cm
+      ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
+byr:1937 iyr:2017 cid:147 hgt:183cm
 
-            iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
-            hcl:#cfa07d byr:1929
+iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
+hcl:#cfa07d byr:1929
 
-            hcl:#ae17e1 iyr:2013
-            eyr:2024
-            ecl:brn pid:760753108 byr:1931
-            hgt:179cm
+hcl:#ae17e1 iyr:2013
+eyr:2024
+ecl:brn pid:760753108 byr:1931
+hgt:179cm
 
-            hcl:#cfa07d eyr:2025 pid:166559648
-            iyr:2011 ecl:brn hgt:59in
+hcl:#cfa07d eyr:2025 pid:166559648
+iyr:2011 ecl:brn hgt:59in
             ";
 
             var passports = Passport.ParseBatch(input.Split(new char[] { '\r', '\n' }));
