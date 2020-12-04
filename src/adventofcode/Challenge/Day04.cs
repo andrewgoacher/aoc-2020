@@ -12,14 +12,15 @@ namespace adventofcode.Challenge
         {
             var day_4_input = File.ReadAllLines("./content/day_4_input.txt");
 
-            var day_4_part_1_output = PassportParser
+            var output = PassportParser
                 .ParseBatch(day_4_input);
 
-            var day_4_part_1_count = day_4_part_1_output.Count(x => x is Passport);
+            var day_4_part_1_count = output.Count(x => x is Passport);
+            var day_4_part_2_count = output.Count(x => x.IsValid());
 
             Console.WriteLine("day 4:");
             Console.WriteLine($"\t\t {day_4_part_1_count}");
-            // Console.WriteLine($"\t\t {day_2_part_2_output}");
+            Console.WriteLine($"\t\t {day_4_part_2_count}");
         }
     }
 }

@@ -8,6 +8,9 @@ namespace adventofcode.Passports
         }
 
         public int Height {get;}
+
+        public string Measure => "in";
+
         public bool IsValid()
         {
             return Height >= 59 && Height <= 76;

@@ -33,13 +33,13 @@ namespace adventofcode.Passports
 
         public bool IsValid()
         {
+            if (!eyeColors.Contains(EyeColor)) { return false; }
+            if (!Regex.IsMatch(PassportId, @"^\d{9}$")) { return false; }
+            if (!IsInRange(ExpiryYear, 2020, 2030)) { return false; }
+            if (!Regex.IsMatch(HairColor, "^#[0-9a-f]{6}$")) { return false; }
             if (!IsInRange(BirthYear, 1920, 2002)) { return false; }
             if (!IsInRange(IssueYear, 2010, 2020)) { return false; }
-            if (!IsInRange(ExpiryYear, 2020, 2030)) { return false; }
-            if (!Regex.IsMatch(PassportId, @"\d{9}")) { return false; }
-            if (!eyeColors.Contains(EyeColor)) { return false; }
-            if (!Regex.IsMatch(HairColor, "#[0-9a-f]{6}")) { return false; }
-            if (!Height.IsValid()) { return false;}
+            if (!Height.IsValid()) { return false; }
 
             return true;
         }
@@ -48,29 +48,12 @@ namespace adventofcode.Passports
         {
             return input >= min && input <= max;
         }
+
+        public override string ToString()
+        {
+            return $"ecl:{EyeColor},byr:{BirthYear},iyr:{IssueYear},eyr:{ExpiryYear}\n" +
+             $"hgt:{Height.Height}{Height.Measure},hcl:{HairColor},pid:{PassportId}\n" +
+             $"cid:{CountryId}";
+        }
     }
 }
-
-//         public bool IsPresent()
-//         {
-//             var absent = (string.IsNullOrEmpty(EyeColor) ||
-//                 string.IsNullOrEmpty(PassportId) ||
-//                 string.IsNullOrEmpty(ExpiryYear) ||
-//                 string.IsNullOrEmpty(HairColor) ||
-//                 string.IsNullOrEmpty(BirthYear) ||
-//                 string.IsNullOrEmpty(IssueYear) ||
-//                 string.IsNullOrEmpty(Height));
-
-//             return !absent;
-//         }
-
-
-//         public bool IsValid()
-//         {
-//             if (!IsPresent()) { return false; }
-
-//         }
-
-
-//     }
-// }

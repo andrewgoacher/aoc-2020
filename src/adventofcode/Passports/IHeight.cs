@@ -4,5 +4,6 @@ namespace adventofcode.Passports
     {
         bool IsValid();
         int Height {get;}
+        string Measure {get;}
     }
 }
