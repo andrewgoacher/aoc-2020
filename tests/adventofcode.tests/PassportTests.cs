@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using adventofcode;
 using System.Linq;
+using adventofcode.Passports;
 
 namespace adventofcode.tests
 {
@@ -14,8 +15,8 @@ namespace adventofcode.tests
         [Test]
         public void ParsePassportMissingRequiredField_ReturnsInvalid()
         {
-            var passport = Passport.Parse(invalidPassport);
-            Assert.False(passport.IsValid());
+            var passport = PassportParser.Parse(invalidPassport);
+            Assert.IsInstanceOf<InvalidPassport>(passport);
         }
 
         const string validPassportWithCountryId = @"
@@ -36,83 +37,83 @@ namespace adventofcode.tests
             byr:1937 iyr:2017 cid:147 hgt:183cm avc:2323
         ";
 
-            Assert.Throws<InvalidInputedException>(() => Passport.Parse(input));
+            Assert.Throws<InvalidInputException>(() => PassportParser.Parse(input));
         }
 
         [Test]
         public void ParsePassportReturnsPassport()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
+            var passport = PassportParser.Parse(validPassportWithCountryId);
             Assert.True(passport.IsValid());
         }
 
         [Test]
         public void ParsePassportMissingOptionalField_ReturnsPassport()
         {
-            var passport = Passport.Parse(validPassportWithoutCountryId);
+            var passport = PassportParser.Parse(validPassportWithoutCountryId);
             Assert.True(passport.IsValid());
         }
 
         [Test]
         public void ParsedPassportContainsBirthyear()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual("1937", passport.BirthYear);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
+            Assert.AreEqual(1937, passport.BirthYear);
         }
 
         [Test]
         public void ParsedPassportContainsIssueYear()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual("2017", passport.IssueYear);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
+            Assert.AreEqual(2017, passport.IssueYear);
         }
 
         [Test]
         public void ParsedPassportContainsExpirationYear()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual("2020", passport.ExpiryYear);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
+            Assert.AreEqual(2020, passport.ExpiryYear);
         }
 
         [Test]
         public void ParsedPassportContainsHeight()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual("183cm", passport.Height);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
+            Assert.AreEqual(183, passport.Height.Height);
         }
 
         [Test]
         public void ParsedPassportContainsEyeColour()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
             Assert.AreEqual("gry", passport.EyeColor);
         }
 
         [Test]
         public void ParsedPassportContainsHairColour()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
             Assert.AreEqual("#fffffd", passport.HairColor);
         }
 
         [Test]
         public void ParsedPassportContainsPassportId()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
             Assert.AreEqual("860033327", passport.PassportId);
         }
 
         [Test]
         public void ParsedPassportContainsCountryId()
         {
-            var passport = Passport.Parse(validPassportWithCountryId);
-            Assert.AreEqual("147", passport.CountryId);
+            var passport = PassportParser.Parse(validPassportWithCountryId) as Passport;
+            Assert.AreEqual(147, passport.CountryId);
         }
 
         [Test]
         public void ParsedPassport_WithMissingCountryId_DoesNotContainCountryId()
         {
-            var passport = Passport.Parse(validPassportWithoutCountryId);
+            var passport = PassportParser.Parse(validPassportWithoutCountryId) as Passport;
             Assert.Null(passport.CountryId);
         }
 
@@ -135,7 +136,7 @@ namespace adventofcode.tests
             iyr:2011 ecl:brn hgt:59in
             ";
 
-            var passports = Passport.ParseBatch(input.Split(new char[] { '\r', '\n' }));
+            var passports = PassportParser.ParseBatch(input.Split(new char[] { '\r', '\n' }));
 
             Assert.AreEqual(4, passports.Count());
         }
@@ -159,9 +160,9 @@ hcl:#cfa07d eyr:2025 pid:166559648
 iyr:2011 ecl:brn hgt:59in
             ";
 
-            var passports = Passport.ParseBatch(input.Split(new char[] { '\r', '\n' }));
+            var passports = PassportParser.ParseBatch(input.Split(new char[] { '\r', '\n' }));
 
-            Assert.AreEqual(2, passports.Where(x => x.IsValid()).Count());
+            Assert.AreEqual(2, passports.Count(x => x.IsValid()));
         }
     }
 }
