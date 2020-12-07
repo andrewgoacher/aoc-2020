@@ -12,7 +12,9 @@ namespace adventofcode.Bags
 
         private const string childBagPattern = @"(\d+) ([\w ]+) bags?";
         private static readonly Regex childBagRegex = new Regex(childBagPattern);
-        public static Bag Parse(string input)
+
+        private readonly IDictionary<string, Bag> allBags;
+        public static Bag Parse(string input, IDictionary<string, Bag> allBags)
         {
             var matches = bagParserRegex.Match(input);
             var name = matches.Groups[1].Captures[0].Value;
@@ -20,30 +22,31 @@ namespace adventofcode.Bags
 
             if (childComponents.Equals("no other bags"))
             {
-                return new Bag(name, 0, Enumerable.Empty<Bag>());
+                return new Bag(name, 0, Enumerable.Empty<Bag>(), allBags);
             }
 
             var childRaw = childComponents.Split(',');
 
-            var children = childRaw.Select(ParseChild);
+            var children = childRaw.Select(x => ParseChild(x, allBags));
 
-            return new Bag(name, 0, children);
+            return new Bag(name, 0, children, allBags);
         }
 
-        private static Bag ParseChild(string input)
+        private static Bag ParseChild(string input, IDictionary<string, Bag> allBags)
         {
             var matches = childBagRegex.Match(input);
             var count = Convert.ToInt32(matches.Groups[1].Captures[0].Value);
             var name = matches.Groups[2].Captures[0].Value;
 
-            return new Bag(name, count, Enumerable.Empty<Bag>());
+            return new Bag(name, count, Enumerable.Empty<Bag>(), allBags);
         }
 
-        private Bag(string name, int count, IEnumerable<Bag> children)
+        private Bag(string name, int count, IEnumerable<Bag> children, IDictionary<string, Bag> allBags)
         {
             Name = name;
             Count = count;
             Bags = children;
+            this.allBags = allBags;
         }
 
         public string Name { get; }
@@ -52,7 +55,20 @@ namespace adventofcode.Bags
 
         public bool Contains(string bagType)
         {
-            return Bags.Any(b => b.Name.Equals(bagType));
+            foreach(var bag in Bags)
+            {
+                if (bag.Name.Equals(bagType))
+                {
+                    return true;
+                }
+
+                if (allBags.TryGetValue(bag.Name, out var linekdBag))
+                {
+                    return linekdBag.Contains(bagType);
+                }
+            }
+
+            return false;
         }
     }
 }
