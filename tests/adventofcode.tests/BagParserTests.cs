@@ -114,5 +114,35 @@ namespace adventofcode.tests
             var count = collection.Count(x => x.Contains("shiny gold"));
             Assert.AreEqual(4, count);
         }
+
+        [Test]
+        public void SingleBagWithNoInnerBagsGetsCorrectTotalOfBagsContained()
+        {
+            const string input = "dotted black bags contain no other bags.";
+            var bag = Bag.Parse(input, new Dictionary<string, Bag>());
+
+            Assert.AreEqual(0, bag.GetTotalBags());
+        }
+
+        [Test]
+        public void BagCollection_GetSingleBag_GetsCorrectTotalBags()
+        {
+            var inputs = new [] 
+            {
+                "shiny gold bags contain 2 dark red bags.",
+                "dark red bags contain 2 dark orange bags.",
+                "dark orange bags contain 2 dark yellow bags.",
+                "dark yellow bags contain 2 dark green bags.",
+                "dark green bags contain 2 dark blue bags.",
+                "dark blue bags contain 2 dark violet bags.",
+                "dark violet bags contain no other bags.",
+            };
+
+            var collection = BagCollection.Parse(inputs);
+
+            var shinyGold = collection["shiny gold"];
+
+            Assert.AreEqual(126, shinyGold.GetTotalBags());
+        }
     }
 }

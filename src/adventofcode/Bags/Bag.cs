@@ -55,7 +55,7 @@ namespace adventofcode.Bags
 
         public bool Contains(string bagType)
         {
-            foreach(var bag in Bags)
+            foreach (var bag in Bags)
             {
                 if (bag.Name.Equals(bagType))
                 {
@@ -64,11 +64,39 @@ namespace adventofcode.Bags
 
                 if (allBags.TryGetValue(bag.Name, out var linekdBag))
                 {
-                    return linekdBag.Contains(bagType);
+                    if (linekdBag.Contains(bagType))
+                    {
+                        return true;
+                    }
                 }
             }
 
             return false;
+        }
+
+        public int GetTotalBags()
+        {
+          return RecursiveGetTotalBags(0);
+        }
+
+        private int RecursiveGetTotalBags(int externalBag)
+        {
+              if (!Bags.Any())
+            {
+                return 1;
+            }
+
+            var total = 0;
+
+            foreach (var bag in Bags)
+            {
+                if (allBags.TryGetValue(bag.Name, out var linkedBag))
+                {
+                    total += (bag.Count * (linkedBag.RecursiveGetTotalBags(1)));
+                }
+            }
+
+            return total + externalBag;
         }
     }
 }
