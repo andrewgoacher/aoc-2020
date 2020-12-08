@@ -37,5 +37,21 @@ namespace adventofcode.tests
         {
             Assert.Throws<InvalidInputException>(() => Parser.Parse("jmp + 3"));
         }
+
+        [Test]
+        public void ParsingAllInstructionsWillReturnAListOfParsedInstructions()
+        {
+            var inputs = new[] 
+            {
+                "acc +1",
+                "jmp +2",
+                "acc +1",
+                "nop +2"
+            };
+
+            var parsed = Parser.ParseAll(inputs);
+
+            Assert.AreEqual(inputs.Length, parsed.Count);
+        }
     }
 }

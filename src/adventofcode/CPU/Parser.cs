@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace adventofcode.CPU
 {
@@ -20,6 +22,11 @@ namespace adventofcode.CPU
             var count = Convert.ToInt32(parts[1]);
 
             return (op, count);
+        }
+
+        public static IList<(Instruction, int)> ParseAll(string[] inputs)
+        {
+            return inputs.Select(Parse).ToList();
         }
     }
 }
