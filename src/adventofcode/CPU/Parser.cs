@@ -6,16 +6,16 @@ namespace adventofcode.CPU
 {
     public class Parser
     {
-        public static (Instruction, int) Parse(string input)
+        public static (Operand, int) Parse(string input)
         {
             var parts = input.Split(" ");
             if (parts.Length != 2) { throw new InvalidInputException(); }
 
             var op = parts[0] switch
             {
-                "nop" => Instruction.NOP,
-                "acc" => Instruction.ACC,
-                "jmp" => Instruction.JMP,
+                "nop" => Operand.NOP,
+                "acc" => Operand.ACC,
+                "jmp" => Operand.JMP,
                 _ => throw new ArgumentException()
             };
 
@@ -24,7 +24,7 @@ namespace adventofcode.CPU
             return (op, count);
         }
 
-        public static IList<(Instruction, int)> ParseAll(string[] inputs)
+        public static IList<(Operand, int)> ParseAll(string[] inputs)
         {
             return inputs.Select(Parse).ToList();
         }

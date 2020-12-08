@@ -6,10 +6,10 @@ namespace adventofcode.tests
 {
     public class InstructionParserTests
     {
-        [TestCase("nop +3", Instruction.NOP)]
-        [TestCase("acc +3", Instruction.ACC)]
-        [TestCase("jmp +3", Instruction.JMP)]
-        public void ParsingInstructionContainsCorrectInstruction(string input, Instruction expected)
+        [TestCase("nop +3", Operand.NOP)]
+        [TestCase("acc +3", Operand.ACC)]
+        [TestCase("jmp +3", Operand.JMP)]
+        public void ParsingInstructionContainsCorrectInstruction(string input, Operand expected)
         {
             var (instruction, _) = Parser.Parse(input);
 
