@@ -1,4 +1,4 @@
-namespace adventofcode.CPU
+namespace CPU
 {
     public class Instruction
     {
