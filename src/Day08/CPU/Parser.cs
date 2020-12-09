@@ -9,7 +9,7 @@ namespace CPU
         public static (Operand, int) Parse(string input)
         {
             var parts = input.Split(" ");
-            if (parts.Length != 2) { throw new InvalidInputException(); }
+            if (parts.Length != 2) { throw new InvalidOperationException(); }
 
             var op = parts[0] switch
             {

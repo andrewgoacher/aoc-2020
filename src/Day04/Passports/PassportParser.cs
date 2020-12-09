@@ -47,7 +47,7 @@ namespace Passports
 
             if (parts.Length > 8)
             {
-                throw new InvalidInputException();
+                throw new InvalidOperationException();
             }
 
             string eyeColor = null;
