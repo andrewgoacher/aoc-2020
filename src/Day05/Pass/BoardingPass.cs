@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace adventofcode.Pass
+namespace Pass
 {
     public class BoardingPass
     {

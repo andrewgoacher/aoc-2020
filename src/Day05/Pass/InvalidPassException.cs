@@ -1,6 +1,6 @@
 using System;
 
-namespace adventofcode.Pass
+namespace Pass
 {
     public class InvalidPassException : Exception {}
 }

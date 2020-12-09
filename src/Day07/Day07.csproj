@@ -5,9 +5,9 @@
         <TargetFramework>net5.0</TargetFramework>
         <LangVersion>9.0</LangVersion>
     </PropertyGroup>
-
+    
     <ItemGroup>
-        <Folder Include="$(SolutionDir)content\" CopyToOutputDirectory="Always" />
+      <ProjectReference Include="..\Common\Common.csproj" />
     </ItemGroup>
 
 </Project>

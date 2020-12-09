@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace adventofcode.Passports
+namespace Passports
 {
     public class Passport : IPassport
     {

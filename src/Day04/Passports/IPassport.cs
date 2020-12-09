@@ -1,4 +1,4 @@
-namespace adventofcode.Passports
+namespace Passports
 {
     public interface IPassport
     {

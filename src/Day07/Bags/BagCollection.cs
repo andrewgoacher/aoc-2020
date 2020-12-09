@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace adventofcode.Bags
+namespace Bags
 {
     public class BagCollection : IEnumerable<Bag>
     {
