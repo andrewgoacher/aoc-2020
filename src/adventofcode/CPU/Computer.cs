@@ -13,9 +13,11 @@ namespace adventofcode.CPU
     {
         public int ProgramCounter { get; private set; }
         public int Accumulator { get; private set; }
-        public Instruction LastInstruction { get; private set; }
+        public Instruction LastExecutedInstruction { get; private set; }
         public ProgramState LastRunState { get; private set; }
         private IList<Instruction> _program;
+        
+        public Instruction LoopStart { get; private set; }
 
         public Computer(IList<(Operand, int)> program)
         {
@@ -24,18 +26,33 @@ namespace adventofcode.CPU
             Accumulator = 0;
         }
 
+        public bool RepairInstruction(int pc)
+        {
+            var instruction = _program[pc];
+            if (instruction.Operand == Operand.ACC)
+            {
+                return false;
+            }
+
+            instruction.ChangeOperand(
+                instruction.Operand == Operand.JMP ?
+                    Operand.NOP :
+                    Operand.JMP);
+
+                    return true;
+        }
+
         public void Reset()
         {
             ProgramCounter = 0;
             Accumulator = 0;
-            LastInstruction = null;
+            LastExecutedInstruction = null;
 
             foreach (var instruction in _program)
             {
                 instruction.Reset();
             }
         }
-
         private ProgramState RunInternal()
         {
             if (ProgramCounter >= _program.Count) { return ProgramState.CleanExit; }
@@ -43,11 +60,12 @@ namespace adventofcode.CPU
             var (operand, count, executed) = instruction;
             if (executed)
             {
+                LoopStart = instruction;
                 return ProgramState.LoopExit;
             }
 
-            instruction.Execute();
-            LastInstruction = instruction;
+            instruction.Execute(ProgramCounter);
+            LastExecutedInstruction = instruction;
             switch (operand)
             {
                 case Operand.NOP: ProgramCounter += 1; break;
@@ -66,7 +84,6 @@ namespace adventofcode.CPU
 
             return ProgramState.Running;
         }
-
         public ProgramState Run()
         {
             LastRunState = RunInternal();

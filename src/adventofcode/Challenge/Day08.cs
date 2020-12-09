@@ -16,13 +16,23 @@ namespace adventofcode.Challenge
             while(computer.Run() == ProgramState.Running);
             var part_1_output = computer.Accumulator;
 
-            computer.LastInstruction
-                .ChangeOperand(computer.LastInstruction.Operand == Operand.JMP ?
-                 Operand.NOP : 
-                 Operand.JMP);
+            var loopStart = computer.LoopStart.PCWhenExecuted;
+            var loopEnd = computer.LastExecutedInstruction.PCWhenExecuted;
+            var part_2_output = -1;
 
-            computer.Reset();
-            while(computer.Run()== ProgramState.Running);
+            for(var i = loopStart; i< loopEnd; ++i)
+            {
+                computer = new Computer(instructions);
+                if (computer.RepairInstruction(i))
+                {
+                    while(computer.Run() == ProgramState.Running);
+                    if (computer.LastRunState == ProgramState.CleanExit)
+                    {
+                        part_2_output = computer.Accumulator;
+                        break;
+                    }
+                }
+            }
 
             Console.WriteLine("day 8:");
             Console.WriteLine($"\t\t {part_1_output}");

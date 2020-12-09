@@ -30,7 +30,7 @@ namespace adventofcode.tests
             var comp = new Computer(instructions);
 
             while(comp.Run());
-            Assert.AreEqual(Operand.NOP, comp.LastInstruction.Operand);
+            Assert.AreEqual(Operand.NOP, comp.LastExecutedInstruction.Operand);
         }
 
          [Test]

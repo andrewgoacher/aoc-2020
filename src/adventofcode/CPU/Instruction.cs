@@ -5,6 +5,7 @@ namespace adventofcode.CPU
         public Operand Operand {get; private set;}
         public int Count {get;}
         public bool Executed {get; private set;}
+        public int PCWhenExecuted {get; private set;} = -1;
 
         public Instruction(Operand operand, int count)
         {
@@ -28,11 +29,18 @@ namespace adventofcode.CPU
         public void Reset()
         {
             Executed = false;
+            PCWhenExecuted = -1;
         }
 
-        public void Execute()
+        public void Execute(int pc)
         {
             Executed = true;
+            PCWhenExecuted = pc;
+        }
+
+        public override string ToString()
+        {
+            return $"({PCWhenExecuted}) {Operand} ({Count})";
         }
     }
 }
