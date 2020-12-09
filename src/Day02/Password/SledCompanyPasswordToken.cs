@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace adventofcode.Password
+namespace Password
 {
     public class SledCompanyPasswordToken
     {

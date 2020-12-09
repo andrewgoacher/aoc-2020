@@ -28,7 +28,7 @@ namespace adventofcode
                 var len = split[height].Length;
                 if (Width != len)
                 {
-                    throw new InconsistentGridException();
+                    throw new InvalidOperationException();
                 }
 
                 for (var width = 0; width < Width; ++width)
@@ -78,6 +78,4 @@ namespace adventofcode
             _traversedCells.Clear();
         }
     }
-
-    public class InconsistentGridException : Exception { }
 }

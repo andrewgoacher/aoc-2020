@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace adventofcode.Password
+namespace Password
 {
     public class ToboggenPasswordToken
     {
