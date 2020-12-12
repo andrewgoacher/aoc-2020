@@ -1,5 +1,6 @@
 using Xunit;
 using day12;
+using System.Linq;
 
 namespace tests
 {
@@ -12,6 +13,21 @@ namespace tests
         public void ChangeDirectionReturnsCorrectDirection(Direction start, bool turnRight, int degrees, Direction expected)
         {
             Assert.Equal(expected, start.ChangeDirection(turnRight, degrees));
+        }
+    }
+
+    public class ShipTests
+    {
+        [Fact]
+        public void SampleDataProducesCorrectManhattenDistance()
+        {
+            var raw = new[] { "F10", "N3", "F7", "R90", "F11" };
+            var commands = raw.Select(Command.Parse);
+
+            var ship = new Ship(Direction.East);
+            foreach (var cmd in commands) { ship.ReceiveCommand(cmd); }
+
+            Assert.Equal(25, ship.ManhattenDistance);
         }
     }
 }
