@@ -29,5 +29,17 @@ namespace tests
 
             Assert.Equal(25, ship.ManhattenDistance);
         }
+
+         [Fact]
+        public void SampleDataProducesCorrectManhattenDistanceForWaypoints()
+        {
+            var raw = new[] { "F10", "N3", "F7", "R90", "F11" };
+            var commands = raw.Select(Command.Parse);
+
+            var ship = new Waypoint();
+            foreach (var cmd in commands) { ship.ReceiveCommand(cmd); }
+
+            Assert.Equal(286, ship.ManhattenDistance);
+        }
     }
 }

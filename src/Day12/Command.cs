@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 namespace day12
 {
@@ -13,6 +14,7 @@ namespace day12
         Right
     }
 
+    [DebuggerDisplay("{NavigationCommand} {Amount}")]
     public class Command
     {
         public Command(NavigationCommand nav, int amount)
