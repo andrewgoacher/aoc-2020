@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace day11
 {
-    public static class Solver
+    public static class Part1Solver
     {
         const char Floor = '.';
         const char Empty = 'L';
@@ -104,11 +104,11 @@ namespace day11
                 return false;
             }
 
-            for(var i=0;i<=originalWidth; ++i)
+            for (var i = 0; i <= originalWidth; ++i)
             {
-                for(var j=0;j<=originalHeight; ++j)
+                for (var j = 0; j <= originalHeight; ++j)
                 {
-                    if (original[i,j] != newArray[i,j])
+                    if (original[i, j] != newArray[i, j])
                     {
                         return false;
                     }
